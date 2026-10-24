@@ -1,4 +1,4 @@
-// Cheque Writer PH — live cheque demo, copy button, and GitHub release metadata
+// Cheque Writer PH — live cheque demo, send-to-PC, copy button, and GitHub release metadata
 (() => {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -30,6 +30,7 @@
     return chunks.join(', ');
   }
 
+  // Up to 999,999,999,999.99 — the largest amount the Billion scale can spell.
   function parseAmount(text) {
     const clean = String(text).replace(/[,₱\s]/g, '');
     if (!/^\d{1,12}(\.\d{0,2})?$/.test(clean)) return null;
@@ -46,23 +47,36 @@
   }
 
   const input = document.getElementById('demo-amount');
-  const amountBox = document.getElementById('cq-amount');
   const wordsLine = document.getElementById('cq-words');
+  const hint = document.getElementById('demo-hint');
+  const status = document.getElementById('demo-status');
+  const defaultHint = hint ? hint.textContent : '';
   let typingTimer = null;
+  let statusTimer = null;
 
-  // Long amounts shrink to stay on one line, like the app fitting text into the words field.
-  function fitWords(text) {
-    // On phones (--k > 1) the words may wrap to a second line, so they can stay twice as large.
-    const scale = parseFloat(getComputedStyle(wordsLine).getPropertyValue('--k')) || 1;
-    const fit = (scale > 1 ? 250 : 120) / Math.max(text.length, 1);
-    wordsLine.style.fontSize = `min(calc(2.2cqw * var(--k)), ${fit.toFixed(2)}cqw)`;
+  function chequeScale() {
+    return parseFloat(getComputedStyle(wordsLine).getPropertyValue('--k')) || 1;
   }
 
-  // The amount box is narrow; Courier glyphs are ~0.62em wide, so size to the box's inner width.
+  // Fit the words to the line like the app does: shrink first, then wrap to a second
+  // (phone: third) line rather than going below a readable size.
+  function fitWords(text) {
+    const scale = chequeScale();
+    const base = 2.2 * scale;
+    const avail = scale > 1 ? 88 : 82; // usable line width in cqw
+    const glyph = 0.62 * Math.max(text.length, 1);
+    let size = Math.min(base, avail / glyph);
+    if (size < 1.6 * scale) size = Math.min(base, (avail * (scale > 1 ? 3 : 2) * 0.9) / glyph);
+    wordsLine.style.fontSize = `${size.toFixed(2)}cqw`;
+  }
+
+  // Keep typed amounts inside the box. While a phone user is typing it stays at 16px or more,
+  // because iOS zooms the page into any smaller input on focus; it shrinks to fit on blur.
   function fitAmount(text) {
-    const scale = parseFloat(getComputedStyle(amountBox).getPropertyValue('--k')) || 1;
-    const fit = (scale > 1 ? 30 : 20) / (0.62 * Math.max(text.length, 1));
-    amountBox.style.fontSize = `min(calc(2.5cqw * var(--k)), ${fit.toFixed(2)}cqw)`;
+    const scale = chequeScale();
+    const fit = (scale > 1 ? 26 : 17) / (0.62 * Math.max(text.length, 1));
+    const size = `min(calc(2.5cqw * var(--k)), ${fit.toFixed(2)}cqw)`;
+    input.style.fontSize = scale > 1 && document.activeElement === input ? `max(16px, ${size})` : size;
   }
 
   function showWords(text, animate) {
@@ -80,25 +94,56 @@
     }, 38);
   }
 
-  function update(animate) {
-    const parsed = parseAmount(input.value);
-    if (!parsed) { amountBox.textContent = ''; showWords('', false); return; }
-    amountBox.textContent = formatAmount(parsed);
-    fitAmount(amountBox.textContent);
-    showWords(amountToWords(parsed), animate);
+  function setHint(message, isError) {
+    hint.textContent = message;
+    hint.classList.toggle('is-error', isError);
+    input.setAttribute('aria-invalid', isError ? 'true' : 'false');
   }
 
-  if (input && amountBox && wordsLine) {
+  // Screen readers hear the result once typing pauses, not on every keystroke.
+  function announce(text) {
+    window.clearTimeout(statusTimer);
+    statusTimer = window.setTimeout(() => { status.textContent = text; }, 700);
+  }
+
+  function update(animate) {
+    fitAmount(input.value);
+    if (input.value.trim() === '') {
+      setHint('Mag-type ng halaga sa amount box.', false);
+      showWords('', false);
+      return;
+    }
+    const parsed = parseAmount(input.value);
+    if (!parsed) {
+      // Keep the last good words on the cheque; say what the box accepts.
+      setHint('Numero lang ang puwede, hanggang 999,999,999,999.99.', true);
+      return;
+    }
+    setHint(defaultHint, false);
+    const words = amountToWords(parsed);
+    showWords(words, animate);
+    announce(words);
+  }
+
+  if (input && wordsLine && hint && status) {
     input.addEventListener('input', () => update(false));
-    input.addEventListener('blur', () => { const parsed = parseAmount(input.value); if (parsed) input.value = formatAmount(parsed); });
+    input.addEventListener('focus', () => fitAmount(input.value));
+    input.addEventListener('blur', () => {
+      const parsed = parseAmount(input.value);
+      if (parsed) input.value = formatAmount(parsed);
+      fitAmount(input.value);
+    });
     const dateField = document.getElementById('cq-date');
-    if (dateField) dateField.textContent = new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
-    // Type the words in once, when the cheque first scrolls into view.
+    if (dateField) {
+      const today = new Date();
+      dateField.textContent = [today.getMonth() + 1, today.getDate()].map(n => String(n).padStart(2, '0')).join('/') + `/${today.getFullYear()}`;
+    }
+    // Type the words in once, when the cheque first comes into view.
     const cheque = document.querySelector('.cheque');
     if ('IntersectionObserver' in window && cheque) {
       const observer = new IntersectionObserver(entries => {
         if (entries.some(entry => entry.isIntersecting)) { observer.disconnect(); update(true); }
-      }, { threshold: 0.5 });
+      }, { threshold: 0.4 });
       observer.observe(cheque);
     } else {
       update(false);
@@ -126,6 +171,25 @@
     }
   }
 
+  // The installer only runs on Windows, so everyone else gets a way to send the link to their PC.
+  const shareButton = document.getElementById('share-link');
+  if (shareButton && !/Windows/i.test(navigator.userAgent)) {
+    shareButton.hidden = false;
+    document.body.classList.add('not-windows');
+    const label = shareButton.lastChild;
+    const original = label.textContent;
+    const siteUrl = `${location.origin}/`;
+    shareButton.addEventListener('click', async () => {
+      if (navigator.share) {
+        try { await navigator.share({ title: 'Cheque Writer PH', text: 'I-download sa Windows PC:', url: siteUrl }); } catch (_) { /* closed the share sheet */ }
+        return;
+      }
+      try { await navigator.clipboard.writeText(siteUrl); label.textContent = ' Nakopya ang link. I-paste sa email o Messenger.'; }
+      catch (_) { label.textContent = ` Buksan sa PC: ${siteUrl}`; }
+      window.setTimeout(() => { label.textContent = original; }, 3000);
+    });
+  }
+
   const copyButton = document.getElementById('copy-maya');
   if (copyButton) copyButton.addEventListener('click', async () => {
     const original = 'Kopyahin';
@@ -143,7 +207,7 @@
       const assets = release.assets || [];
       const asset = assets.find(item => item.name === 'ChequeWriter_Setup.exe') || assets.find(item => /\.exe$/i.test(item.name));
       if (!asset) return;
-      document.querySelectorAll('#main-download-btn, #cta-download-btn').forEach(button => { button.href = asset.browser_download_url; });
+      document.querySelectorAll('#main-download-btn, #pricing-download-btn, #cta-download-btn').forEach(button => { button.href = asset.browser_download_url; });
       const sizeTag = document.getElementById('file-size');
       if (sizeTag) sizeTag.textContent = `~${Math.round(asset.size / (1024 * 1024))} MB`;
       const versionTag = document.getElementById('version');
