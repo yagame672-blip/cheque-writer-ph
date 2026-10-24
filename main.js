@@ -39,7 +39,8 @@
       const response = await fetch(`https://api.github.com/repos/${user}/${repo}/releases/latest`);
       if (!response.ok) return;
       const release = await response.json();
-      const asset = (release.assets || []).find(item => /\.(zip|exe)$/i.test(item.name));
+      const assets = release.assets || [];
+      const asset = assets.find(item => item.name === 'ChequeWriter_Setup.exe') || assets.find(item => /\.exe$/i.test(item.name));
       if (!asset) return;
       document.querySelectorAll('#main-download-btn, #cta-download-btn').forEach(button => { button.href = asset.browser_download_url; });
       const sizeTag = document.getElementById('file-size');
