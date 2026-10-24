@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="tl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calibration — Cheque Writer PH</title>
+<meta name="description" content="Paano i-calibrate ang Cheque Writer PH para tumapat ang print sa tseke mo: test sheet, Global Fine Offset, X at Y ng bawat field, at Date Pitch. May simulator na puwedeng subukan.">
+<meta property="og:title" content="Calibration — Cheque Writer PH">
+<meta property="og:description" content="Itapat ang print sa tseke: ang bawat hakbang, may animation at simulator.">
+<meta property="og:image" content="https://cheque-writer-ph.vercel.app/assets/og-image.jpg">
+<meta name="theme-color" content="#1a2039">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://cheque-writer-ph.vercel.app/calibrate.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;600;800&display=swap">
+<link rel="stylesheet" href="site.css">
+<script>
+  (function (root) {
+    root.classList.add("js");
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    root.classList.add("motion");
+    setTimeout(function () { if (!window.__cwReady) root.classList.remove("motion"); }, 3000);
+  })(document.documentElement);
+</script>
+</head>
+<body class="cal-page">
+<a class="skip" href="#main">Lumaktaw sa nilalaman</a>
+
+<header class="nav">
+  <a class="wordmark" href="index.html">Cheque Writer PH</a>
+  <nav class="nav-links" aria-label="Pangunahing navigation">
+    <a href="calibrate.html" aria-current="page">Calibration</a>
+    <a href="index.html#presyo">Presyo</a>
+    <a href="index.html#faq">Tanong</a>
+  </nav>
+  <a class="btn btn-small" href="index.html#download-anchor">I-download</a>
+</header>
+
+<main id="main">
+
+<section class="cal-hero">
+  <div class="cal-hero-copy">
+    <h1>Itapat ang print sa tseke.</h1>
+    <p class="cal-lead">Isang beses lang ito kada printer. Kailangan mo ng ilang minuto, isang bond paper, at isang tseke mo. Pagkatapos, tatapat na ang bawat tseke na ipi-print mo.</p>
+    <p class="cal-jump"><a href="#subukan-cal">Subukan muna ang simulator</a></p>
+  </div>
+  <figure class="cal-hero-pic">
+    <img src="assets/banco-espanol-filipino-1896.jpg" alt="Lumang 10-peso note ng El Banco Español-Filipino, may detalyadong engraving" width="1400" height="855">
+    <figcaption>10 pesos ng El Banco Español-Filipino, 1896. Ang security printing ay laging tungkol sa tamang puwesto.</figcaption>
+  </figure>
+</section>
+
+<!-- PINNED STORY: the stage holds while the steps scroll past -->
+<section class="cal-story" aria-labelledby="cal-story-title">
+  <h2 class="cal-story-title" id="cal-story-title">Walong hakbang, isang beses lang</h2>
+  <div class="cal-grid">
+    <div class="cal-stage-wrap" aria-hidden="true">
+      <div class="cal-stage" id="cal-stage" data-step="1" data-ui>
+        <!-- step 1: the main window -->
+        <div class="sc sc-app">
+          <div class="app-bar"><span>Cheque Writer PH</span><span class="app-status">Offline Spooler: Ready</span></div>
+          <div class="app-body">
+            <div class="app-field"><small>Date</small><b>10/24/2026</b></div>
+            <div class="app-field"><small>Payee</small><b>Juan dela Cruz Trading</b></div>
+            <div class="app-field"><small>Amount</small><b>50,000.00</b></div>
+            <div class="app-actions"><span class="app-btn">Print Cheque</span><span class="app-btn alt">Preview PDF</span><span class="app-btn cal">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path fill="none" stroke="currentColor" stroke-width="2" d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg>
+              Calibration</span></div>
+          </div>
+        </div>
+        <!-- step 2: paper feed mode -->
+        <div class="sc sc-mode">
+          <div class="mode-opt is-pick"><div class="mode-page"><span class="mode-chq"></span></div><b>Letter Top Feed (Recommended)</b><small>Tseke sa itaas na 3 pulgada ng letter-size na pahina</small></div>
+          <div class="mode-opt"><div class="mode-page mode-only"><span class="mode-chq"></span></div><b>Physical Cheque (8.75x3.0)</b><small>Tseke mismo ang ipapasok sa printer</small></div>
+        </div>
+        <!-- step 3: the test sheet comes out of the printer -->
+        <div class="sc sc-print">
+          <div class="printer"><span class="slot"></span></div>
+          <div class="sheet">
+            <div class="sheet-box"><span>--- ALIGNMENT TEST SHEET (LETTER TOP-FEED) ---</span></div>
+            <span class="sh-date">10/24/2026</span><span class="sh-pay">ALIGNMENT TEST SAMPLE</span><span class="sh-amt">9,999.99</span>
+          </div>
+        </div>
+        <!-- steps 4-6 and 8: test sheet over the cheque -->
+        <div class="sc sc-over">
+          <div class="chq chq-blank over-chq">
+            <div class="cq cq-date"><span class="cq-label">Date</span><span class="line"></span></div>
+            <div class="cq cq-pay"><span class="cq-label">Pay to the order of</span><span class="line"></span></div>
+            <div class="cq cq-amount"><span class="cq-peso">₱</span></div>
+            <div class="cq cq-words"><span class="cq-label">Pesos</span><span class="line"></span></div>
+            <div class="cq cq-sign cq-label">Authorized signature</div>
+          </div>
+          <div class="over-print">
+            <span class="tp tp-date">10/24/2026</span><span class="tp tp-pay">ALIGNMENT TEST SAMPLE</span><span class="tp tp-amt">9,999.99</span><span class="tp tp-words">Nine Thousand, Nine Hundred Ninety Nine Pesos 99/100 Only</span>
+          </div>
+          <div class="dims"><span class="dim-x">0.05 in pakanan</span><span class="dim-y">0.03 in pababa</span></div>
+          <div class="offset-box">
+            <span>Global Fine Offset (X / Y)</span>
+            <b class="off-x">−0.05</b><b class="off-y">+0.03</b>
+          </div>
+          <span class="stamp-ok">TUGMA NA</span>
+        </div>
+        <!-- step 7: date boxes and pitch -->
+        <div class="sc sc-date">
+          <div class="date-boxes"><span>1</span><span>0</span><i></i><span>2</span><span>4</span><i></i><span>2</span><span>0</span><span>2</span><span>6</span></div>
+          <div class="date-print"><span>1</span><span>0</span><i></i><span>2</span><span>4</span><i></i><span>2</span><span>0</span><span>2</span><span>6</span></div>
+          <p class="date-legend">Date Pitch <b>0.190 in</b> &nbsp; Dash Gap <b>0.110 in</b></p>
+        </div>
+      </div>
+    </div>
+
+    <ol class="cal-steps">
+      <li class="cal-step" data-step="1">
+        <h3>Buksan ang Calibration</h3>
+        <p>Sa main window ng app, i-click ang <b>Calibration</b>. Bubukas ang Alignment &amp; Calibration Engine, kung saan nakalista ang bawat field at ang X at Y nito sa pulgada.</p>
+      </li>
+      <li class="cal-step" data-step="2">
+        <h3>Piliin ang Paper Feed Mode</h3>
+        <p><b>Letter Top Feed (Recommended)</b> kung nasa itaas na 3 pulgada ng letter-size na pahina ang tseke. <b>Physical Cheque (8.75x3.0)</b> kung tseke mismo ang ipapasok mo sa printer.</p>
+      </li>
+      <li class="cal-step" data-step="3">
+        <h3>I-print ang test sheet sa bond paper</h3>
+        <p>I-click ang <b>Print Test Sheet</b>. Ise-save muna nito ang settings, tapos magpi-print ng ALIGNMENT TEST SHEET: gray na kahon na kasinlaki ng tseke at sample na laman. Plain bond paper muna, hindi ang tseke.</p>
+      </li>
+      <li class="cal-step" data-step="4">
+        <h3>Ipatong sa tseke at itapat sa ilaw</h3>
+        <p>Ilagay ang test sheet sa ibabaw ng totoong tseke, at itapat ang dalawa sa ilaw o bintana para makita mo kung saan tumama ang bawat field.</p>
+      </li>
+      <li class="cal-step" data-step="5">
+        <h3>Sukatin ang layo</h3>
+        <p>Gamit ang ruler, sukatin kung ilang pulgada ang layo ng print sa linya ng tseke, pahalang at patayo. Halimbawa: 0.05 pulgada pakanan at 0.03 pulgada pababa.</p>
+      </li>
+      <li class="cal-step" data-step="6">
+        <h3>Ilagay sa Global Fine Offset</h3>
+        <p>Inuurong nito ang lahat ng field nang sabay. Ang <b>+X ay pakanan</b> at ang <b>+Y ay pataas</b>. Kaya kung pakanan ng 0.05 ang print, ilagay ang X <b>−0.05</b>. Kung pababa ng 0.03, ilagay ang Y <b>+0.03</b>.</p>
+      </li>
+      <li class="cal-step" data-step="7">
+        <h3>Ayusin ang isang field o ang petsa kung kailangan</h3>
+        <p>Kung isa lang ang hindi tumapat, baguhin ang X at Y nito sa table: Date, Payee Name, Numeric Amount o Amount in Words. Para sa mga kahon ng petsa, ang <b>Date Pitch</b> ang layo ng bawat digit at ang <b>Dash Gap</b> ang puwang sa pagitan ng buwan, araw at taon.</p>
+      </li>
+      <li class="cal-step" data-step="8">
+        <h3>I-print ulit, saka i-save</h3>
+        <p>Ulitin ang test sheet hanggang tumapat ang lahat, saka i-click ang <b>Save Calibration</b>. Naka-save ito sa PC mo, kaya hindi mo na ito uulitin hangga't pareho ang printer.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- THE LIVE THING: align the test print yourself -->
+<section class="sim" id="subukan-cal">
+  <h2 class="sim-title">Subukan: itapat ang print.</h2>
+  <p class="sim-lead">Ganito ang gagawin mo sa app. Gamitin ang mga button, o ang arrow keys kapag naka-focus ang tseke, hanggang tumapat ang print sa mga linya.</p>
+  <div class="sim-body">
+    <div class="sim-cheque" id="sim-cheque" tabindex="0" role="group" aria-label="Tseke na may test print. Gamitin ang arrow keys para iurong ang print ng 0.01 pulgada." data-ui>
+      <div class="chq chq-blank">
+        <div class="cq cq-date"><span class="cq-label">Date</span><span class="line"></span></div>
+        <div class="cq cq-pay"><span class="cq-label">Pay to the order of</span><span class="line"></span></div>
+        <div class="cq cq-amount"><span class="cq-peso">₱</span></div>
+        <div class="cq cq-words"><span class="cq-label">Pesos</span><span class="line"></span></div>
+        <div class="cq cq-sign cq-label">Authorized signature</div>
+      </div>
+      <div class="over-print sim-print" id="sim-print">
+        <span class="tp tp-date">10/24/2026</span><span class="tp tp-pay">ALIGNMENT TEST SAMPLE</span><span class="tp tp-amt">9,999.99</span><span class="tp tp-words">Nine Thousand, Nine Hundred Ninety Nine Pesos 99/100 Only</span>
+      </div>
+      <span class="stamp-ok sim-stamp" id="sim-stamp">TUGMA NA</span>
+    </div>
+    <div class="sim-panel" data-ui>
+      <p class="sim-panel-title">Global Fine Offset</p>
+      <div class="sim-axis">
+        <span>X</span>
+        <button type="button" data-axis="x" data-d="-1" aria-label="Bawasan ang X ng 0.01 pulgada (pakaliwa)">−</button>
+        <output id="out-x">0.00</output>
+        <button type="button" data-axis="x" data-d="1" aria-label="Dagdagan ang X ng 0.01 pulgada (pakanan)">+</button>
+      </div>
+      <div class="sim-axis">
+        <span>Y</span>
+        <button type="button" data-axis="y" data-d="-1" aria-label="Bawasan ang Y ng 0.01 pulgada (pababa)">−</button>
+        <output id="out-y">0.00</output>
+        <button type="button" data-axis="y" data-d="1" aria-label="Dagdagan ang Y ng 0.01 pulgada (pataas)">+</button>
+      </div>
+      <p class="sim-status" id="sim-status" aria-live="polite">Pakanan ng 0.08 at pababa ng 0.05 pulgada ang print.</p>
+      <button class="btn btn-small btn-ghost" id="sim-new" type="button">Bagong test print</button>
+    </div>
+  </div>
+</section>
+
+<!-- THEN AND NOW -->
+<section class="cal-then" aria-labelledby="then-title">
+  <div class="cal-then-copy">
+    <h2 id="then-title">Dati, mano-mano.</h2>
+    <p>Sa makinang Protectograph at sa makinilya, itinatapat ng kamay ang tseke sa bawat pasok nito. Sa app, isang beses mo lang itong ise-set, at pareho na ang puwesto ng bawat print.</p>
+  </div>
+  <figure>
+    <img src="assets/protectograph.jpg" alt="Isang lumang Protectograph checkwriter na naka-display sa museo" width="1100" height="1650" loading="lazy">
+    <figcaption>Protectograph checkwriter, John Nurminen Foundation, Helsinki</figcaption>
+  </figure>
+  <figure>
+    <video src="assets/typewriter.webm" poster="assets/typewriter-poster.jpg" muted loop playsinline preload="none" width="1280" height="720" aria-label="Isang kamay na nagta-type sa portable na makinilya"></video>
+    <figcaption>Olivetti Dora, portable na makinilya mula dekada 60</figcaption>
+  </figure>
+</section>
+
+<!-- REFERENCE: the real defaults -->
+<section class="ref" aria-labelledby="ref-title">
+  <h2 class="ref-title" id="ref-title">Mga default ng app</h2>
+  <div class="ref-body">
+    <p class="ref-note">Ang X ay sinusukat mula sa kaliwang gilid ng tseke, at ang Y mula sa ibaba, sa pulgada (1 pulgada = 72 points). Kung nagulo ang settings, ibinabalik ng <b>Reset</b> ang mga ito.</p>
+    <table class="ref-table">
+      <thead><tr><th scope="col">Field</th><th scope="col">X (in)</th><th scope="col">Y (in)</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Date</th><td>6.25</td><td>2.65</td></tr>
+        <tr><th scope="row">Payee Name</th><td>2.15</td><td>2.05</td></tr>
+        <tr><th scope="row">Numeric Amount</th><td>6.20</td><td>1.95</td></tr>
+        <tr><th scope="row">Amount in Words</th><td>1.70</td><td>1.70</td></tr>
+        <tr><th scope="row">Global Fine Offset</th><td>0.00</td><td>0.00</td></tr>
+        <tr><th scope="row">Date Pitch / Dash Gap</th><td>0.190</td><td>0.110</td></tr>
+        <tr><th scope="row">Font</th><td colspan="2">Helvetica-Bold, 10</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <ul class="tips">
+    <li><b>I-print sa Actual size.</b> Kung mula sa Preview PDF ka magpi-print, piliin ang Actual size o 100%, hindi Fit to page, para hindi lumiit ang print.</li>
+    <li><b>Parehong paraan ng pagpasok ng papel.</b> Pareho dapat ang tray at direksyon ng papel sa test sheet at sa totoong tseke.</li>
+    <li><b>Nagpalit ng printer?</b> Ulitin ang calibration, dahil iba-iba ang margin ng bawat printer.</li>
+  </ul>
+</section>
+
+</main>
+
+<footer class="foot foot-short">
+  <div class="foot-top">
+    <div class="foot-invite">
+      <p class="foot-say">Handa nang mag-print?</p>
+      <a class="btn btn-big btn-ink" href="https://github.com/yagame672-blip/cheque-writer-ph/releases/latest/download/ChequeWriter_Setup.exe">I-download para sa Windows</a>
+    </div>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="index.html">Home</a>
+      <a href="index.html#presyo">Presyo at bayad</a>
+      <a href="index.html#faq">Mga tanong</a>
+    </nav>
+  </div>
+  <div class="foot-legal">
+    <p>© 2026 Cheque Writer PH</p>
+    <p class="credits">Mga larawan: <a href="https://commons.wikimedia.org/wiki/File:PHI-A8-El_Banco_Espa%C3%B1ol-Filipino-10_pesos_(1896).jpg">“PHI-A8-El Banco Español-Filipino-10 pesos (1896)”</a>, National Museum of American History, public domain; <a href="https://commons.wikimedia.org/wiki/File:Protectograph_Huolintatalo.jpg">“Protectograph Huolintatalo”</a> ni Antti Leppänen, <a href="https://creativecommons.org/licenses/by/4.0">CC BY 4.0</a>; <a href="https://commons.wikimedia.org/wiki/File:Olivetti_Dora_portable_typewriter.webm">“Olivetti Dora portable typewriter”</a> ni Erik Pålsson, <a href="https://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>; lahat via Wikimedia Commons.</p>
+  </div>
+  <p class="foot-name" aria-hidden="true">Cheque Writer</p>
+</footer>
+
+<script src="assets/vendor/gsap.min.js" defer></script>
+<script src="assets/vendor/ScrollTrigger.min.js" defer></script>
+<script src="assets/vendor/lenis.min.js" defer></script>
+<script src="calibrate.js" defer></script>
+</body>
+</html>

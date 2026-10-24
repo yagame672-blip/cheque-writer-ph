@@ -3,3 +3,6 @@
 
 # Impeccable critique records (local only)
 .impeccable/
+
+# design-taste-frontend inspector output (local only)
+.taste-skill/

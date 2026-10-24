@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /admin.html
+Disallow: /login.html
+Sitemap: https://cheque-writer-ph.vercel.app/sitemap.xml

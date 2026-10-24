@@ -3,201 +3,297 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Cheque Writer PH — Cheque printing para sa Windows</title>
-<meta name="description" content="Windows app para ihanda, i-preview, at i-print ang mga tseke ng negosyo. May automatic amount-in-words, print alignment, at PDF export. Gumagana offline. Libre ang unang 15 araw.">
+<title>Cheque Writer PH — Tamang tseke, tamang print</title>
+<meta name="description" content="Windows app na nagsusulat ng amount in words at nagpi-print nang tama sa tseke ng 22 bangko sa Pilipinas. May calibration, PDF export at history. Libre ang unang 15 araw, tapos ₱100 kada buwan.">
+<meta property="og:title" content="Cheque Writer PH — Tamang tseke, tamang print">
+<meta property="og:description" content="I-type ang halaga, isusulat ng app ang words, at ipi-print nang tama sa tseke mo. Para sa Windows. Libre ang unang 15 araw.">
+<meta property="og:image" content="https://cheque-writer-ph.vercel.app/assets/og-image.jpg">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#1a2039">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://cheque-writer-ph.vercel.app/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Libre+Franklin:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;600;800&family=Courier+Prime:wght@400;700&display=swap">
 <link rel="stylesheet" href="site.css">
+<script>
+  // Hide what main.js animates before first paint; show everything if it never runs.
+  (function (root) {
+    root.classList.add("js");
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    root.classList.add("motion");
+    setTimeout(function () { if (!window.__cwReady) root.classList.remove("motion"); }, 3000);
+  })(document.documentElement);
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Cheque Writer PH","operatingSystem":"Windows 10, Windows 11","applicationCategory":"BusinessApplication","description":"Windows app na nagsusulat ng amount in words at nagpi-print ng tseke para sa mga bangko sa Pilipinas.","offers":{"@type":"Offer","price":"100","priceCurrency":"PHP"}}
+</script>
 </head>
 <body>
-<header class="wrap nav">
-  <a class="brand" href="#top" aria-label="Cheque Writer PH, bumalik sa itaas">
-    <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2.5" y="8" width="27" height="16" rx="2"/><path d="M7 19.5h9M7 15h5M21 13.5h4.5v4H21z"/></svg>
-    <span>Cheque Writer PH</span>
-  </a>
-  <nav class="navlinks" aria-label="Pangunahing navigation">
-    <div class="navlinks-text">
-      <a href="#features">Features</a>
-      <a href="#how-to">Paano gamitin</a>
-      <a href="#pricing">Presyo</a>
-    </div>
-    <a class="btn btn-primary btn-small" href="#download">Download</a>
+<a class="skip" href="#main">Lumaktaw sa nilalaman</a>
+
+<header class="nav">
+  <a class="wordmark" href="#top">Cheque Writer PH</a>
+  <nav class="nav-links" aria-label="Pangunahing navigation">
+    <a href="calibrate.html">Calibration</a>
+    <a href="#presyo">Presyo</a>
+    <a href="#faq">Tanong</a>
   </nav>
+  <a class="btn btn-small" href="#download-anchor">I-download</a>
 </header>
 
-<main id="top">
-  <section class="wrap hero">
-    <div class="hero-top">
-      <h1>I-type ang halaga. Isusulat namin ang words.</h1>
-      <div class="hero-side">
-        <p class="hero-copy">Windows app para ihanda, i-preview, at i-print ang mga tseke ng negosyo. May automatic amount-in-words, print alignment, at PDF export.</p>
-        <div class="hero-actions" id="download">
-          <a class="btn btn-primary" id="main-download-btn" href="https://github.com/yagame672-blip/cheque-writer-ph/releases/latest/download/ChequeWriter_Setup.exe">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5M12 15V3"/></svg>
-            I-download para sa Windows
-          </a>
-          <button class="btn btn-primary" id="share-link" type="button" hidden>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="1.5"/><path d="M8 21h8M12 17v4"/></svg>
-            Ipadala ang link sa PC mo
-          </button>
+<main id="main">
+
+<!-- HERO: one sentence split by a reel of the product -->
+<section class="hero" id="top">
+  <div class="hero-stage">
+    <h1 class="hero-title"><span class="half half-l">Tamang tseke,</span> <span class="half half-r">tamang print.</span></h1>
+
+    <div class="reel" aria-hidden="true">
+      <div class="reel-track">
+        <!-- 1. A finished cheque -->
+        <div class="frame" data-ui>
+          <div class="chq">
+            <div class="cq cq-bank">Pangalan ng bangko<small>Halimbawang layout</small></div>
+            <div class="cq cq-no">No. 000124</div>
+            <div class="cq cq-date"><span class="cq-label">Date</span><span class="line cq-fill">10/24/2026</span></div>
+            <div class="cq cq-pay"><span class="cq-label">Pay to the order of</span><span class="line cq-fill">Juan dela Cruz Trading</span></div>
+            <div class="cq cq-amount"><span class="cq-peso">₱</span><span class="cq-fill">50,000.00</span></div>
+            <div class="cq cq-words"><span class="cq-label">Pesos</span><span class="line cq-fill">Fifty Thousand Pesos Only</span></div>
+            <div class="cq cq-sign cq-label">Authorized signature</div>
+          </div>
         </div>
-        <p class="hero-meta">Libre ang unang 15 araw. Para sa Windows 10 at 11 (64-bit), <span id="file-size">~395 MB</span>. Gumagana offline at nasa PC mo lang ang data ng mga tseke.<span id="version"></span></p>
+        <!-- 2. The words, close up -->
+        <div class="frame frame-words" data-ui>
+          <div class="zoom-amount"><span>₱</span>125,000.50</div>
+          <p class="zoom-words">One Hundred Twenty Five Thousand Pesos 50/100 Only</p>
+        </div>
+        <!-- 3. A test sheet laid over the cheque -->
+        <div class="frame frame-cal" data-ui>
+          <div class="chq chq-blank">
+            <div class="cq cq-date"><span class="cq-label">Date</span><span class="line"></span></div>
+            <div class="cq cq-pay"><span class="cq-label">Pay to the order of</span><span class="line"></span></div>
+            <div class="cq cq-amount"><span class="cq-peso">₱</span></div>
+            <div class="cq cq-words"><span class="cq-label">Pesos</span><span class="line"></span></div>
+          </div>
+          <div class="testprint">
+            <span class="tp tp-date">10/24/2026</span><span class="tp tp-pay">ALIGNMENT TEST SAMPLE</span>
+            <span class="tp tp-amt">9,999.99</span><span class="tp tp-words">Nine Thousand, Nine Hundred Ninety Nine Pesos 99/100 Only</span>
+          </div>
+          <span class="cal-readout">Global Fine Offset &nbsp;X −0.05 in &nbsp;Y +0.03 in</span>
+        </div>
+        <!-- 4. History with the saved PDFs -->
+        <div class="frame frame-hist" data-ui>
+          <div class="hist-row is-sel"><span>10/24/2026</span><span>Juan dela Cruz Trading</span><span>50,000.00</span></div>
+          <div class="hist-row"><span>10/23/2026</span><span>Santos Hardware</span><span>12,450.75</span></div>
+          <div class="hist-row"><span>10/22/2026</span><span>Reyes Printing Services</span><span>3,200.00</span></div>
+          <div class="hist-row"><span>10/21/2026</span><span>Dela Paz Logistics</span><span>87,000.00</span></div>
+          <p class="hist-file">Cheque_20261024_Juan dela Cruz Trading.pdf</p>
+        </div>
       </div>
     </div>
 
-    <div class="demo">
-      <figure class="cheque" aria-label="Halimbawang tseke. Mag-type ng halaga sa amount box para makita ang amount in words.">
-        <svg class="guilloche" id="guilloche" aria-hidden="true" preserveAspectRatio="none"></svg>
-        <div class="cq cq-bank">Pangalan ng bangko<small>Halimbawang layout lang</small></div>
-        <div class="cq cq-no">No. 000124</div>
-        <div class="cq cq-date"><span class="cq-label">Date</span><span class="line cq-fill" id="cq-date">10/24/2026</span></div>
-        <div class="cq cq-pay"><span class="cq-label">Pay to the order of</span><span class="line cq-fill">Juan dela Cruz Trading</span></div>
-        <label class="cq cq-amount" for="demo-amount">
-          <span class="sr-only">Halaga sa piso</span>
-          <span class="cq-peso" aria-hidden="true">₱</span>
-          <input id="demo-amount" inputmode="decimal" autocomplete="off" spellcheck="false" maxlength="18" value="50,000.00" aria-describedby="demo-hint">
-        </label>
-        <div class="cq cq-words"><span class="cq-label">Pesos</span><span class="line cq-fill" id="cq-words">Fifty Thousand Pesos Only</span></div>
-        <div class="cq cq-sign cq-label">Authorized signature</div>
-        <div class="cq cq-micr" aria-hidden="true">000124&nbsp; 010010010&nbsp; 001234567</div>
-      </figure>
-      <p class="demo-hint" id="demo-hint" aria-live="polite">I-click ang amount box sa tseke at mag-type ng ibang halaga. Ganitong format din ang ipi-print ng app, kasama ang centavos (hal. 45/100).</p>
-      <p class="sr-only" id="demo-status" aria-live="polite"></p>
+    <div class="hero-foot">
+      <p class="hero-lead">Windows app na nagsusulat ng amount in words at nagpi-print nang tama sa tseke ng 22 bangko sa Pilipinas. Libre ang unang 15 araw.</p>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="section" id="features">
-    <div class="wrap">
-      <h2>Ang kailangan para sa maayos na tseke</h2>
-      <p class="section-intro">Mula sa pag-type ng halaga hanggang sa pag-print, nasa iisang app.</p>
-      <dl class="ledger">
-        <dt>Amount in words</dt>
-        <dd>I-type ang numero at awtomatikong lalabas ang English words, kasama ang centavos. Mas kaunting manual typing, mas madaling i-review.</dd>
-        <dt>Print alignment</dt>
-        <dd>Mag-print muna sa plain paper, tapos i-adjust ang posisyon ng print hanggang tumugma ito sa tseke at printer mo.</dd>
-        <dt>PDF export</dt>
-        <dd>I-save ang tseke bilang PDF para sa records o para i-review kasama ng accounting.</dd>
-        <dt>Philippine bank layouts</dt>
-        <dd>May handang layout para sa 22 bangko sa Pilipinas.</dd>
-        <dt>Kahit anong Windows printer</dt>
-        <dd>Gumagana sa printer na naka-install sa Windows mo.</dd>
-        <dt>Updates sa loob ng app</dt>
-        <dd>Kapag may bagong release, makukuha mo ito mula mismo sa app.</dd>
-      </dl>
+<!-- THE LIVE THING: type the amount, the cheque writes the words -->
+<section class="try" id="subukan">
+  <h2 class="try-title">I-type ang halaga ng tseke mo.</h2>
+  <label class="try-line" for="demo-amount" data-ui>
+    <span class="sr-only">Halaga sa piso</span>
+    <span class="try-peso" aria-hidden="true">₱</span>
+    <input id="demo-amount" inputmode="decimal" autocomplete="off" spellcheck="false" maxlength="18" value="50,000.00" aria-describedby="demo-hint">
+  </label>
+  <div class="try-answer">
+    <figure class="chq chq-live" id="cheque" aria-label="Halimbawang tseke na may amount in words" data-ui>
+      <svg class="guilloche" id="guilloche" aria-hidden="true" preserveAspectRatio="none"></svg>
+      <div class="cq cq-bank">Pangalan ng bangko<small>Halimbawang layout</small></div>
+      <div class="cq cq-no">No. 000125</div>
+      <div class="cq cq-date"><span class="cq-label">Date</span><span class="line cq-fill" id="cq-date">10/24/2026</span></div>
+      <div class="cq cq-pay"><span class="cq-label">Pay to the order of</span><span class="line cq-fill">Juan dela Cruz Trading</span></div>
+      <div class="cq cq-amount"><span class="cq-peso">₱</span><span class="cq-fill" id="cq-amount">50,000.00</span></div>
+      <div class="cq cq-words"><span class="cq-label">Pesos</span><span class="line cq-fill" id="cq-words">Fifty Thousand Pesos Only</span></div>
+      <div class="cq cq-sign cq-label">Authorized signature</div>
+    </figure>
+    <p class="demo-hint" id="demo-hint" aria-live="polite">Ganitong format din ang ipi-print ng app, kasama ang centavos.</p>
+    <p class="sr-only" id="demo-status" aria-live="polite"></p>
+  </div>
+  <div class="try-examples" aria-label="Mga halimbawang halaga">
+    <button type="button" data-amount="1,250.00">₱1,250.00</button>
+    <button type="button" data-amount="125,000.50">₱125,000.50</button>
+    <button type="button" data-amount="2,345,678.90">₱2,345,678.90</button>
+  </div>
+</section>
+
+<!-- STORY: the name comes from a machine -->
+<section class="story" id="kuwento">
+  <div class="story-copy">
+    <h2>Dati, makina ang cheque writer.</h2>
+    <p>Tinatatak ng mga makinang tulad ng Protectograph ang halaga sa tseke para hindi ito mabago. Ang iba, minamakinilya ang bawat tseke, isa-isa. Ngayon, sa PC mo na ito ginagawa: i-type ang halaga, at ang app na ang magsusulat ng words at magpi-print sa tamang puwesto.</p>
+  </div>
+  <figure class="story-machine">
+    <img src="assets/protectograph.jpg" alt="Isang lumang Protectograph checkwriter na naka-display sa museo" width="1100" height="1650" loading="lazy">
+    <figcaption>Protectograph checkwriter, John Nurminen Foundation, Helsinki</figcaption>
+  </figure>
+  <figure class="story-clip">
+    <video src="assets/typewriter.webm" poster="assets/typewriter-poster.jpg" muted loop playsinline preload="none" width="1280" height="720" aria-label="Isang kamay na nagta-type sa portable na makinilya"></video>
+    <figcaption>Olivetti Dora, portable na makinilya mula dekada 60</figcaption>
+  </figure>
+</section>
+
+<!-- FEATURES as sentences with switches -->
+<section class="features" id="features">
+  <h2 class="features-title">Ang ginagawa ng app para sa iyo</h2>
+  <ul class="bands">
+    <li class="band is-on" data-tone="pink">
+      <p class="band-say">Isusulat ang amount in words.</p>
+      <button class="switch" type="button" role="switch" aria-checked="true" aria-label="Amount in words" data-ui><span></span></button>
+      <p class="band-more">₱125,000.50 → One Hundred Twenty Five Thousand Pesos 50/100 Only</p>
+    </li>
+    <li class="band" data-tone="lift">
+      <p class="band-say">Itutugma ang print sa tseke mo.</p>
+      <button class="switch" type="button" role="switch" aria-checked="false" aria-label="Print alignment" data-ui><span></span></button>
+      <p class="band-more">Bawat field may sariling X at Y sa pulgada, at may test sheet para sa bond paper. <a href="calibrate.html">Tingnan kung paano</a>.</p>
+    </li>
+    <li class="band is-on" data-tone="wine">
+      <p class="band-say">Ise-save ang bawat tseke bilang PDF.</p>
+      <button class="switch" type="button" role="switch" aria-checked="true" aria-label="PDF export" data-ui><span></span></button>
+      <p class="band-more">Isang PDF kada tseke, may petsa at pangalan ng payee sa file name, para sa records at accounting.</p>
+    </li>
+    <li class="band" data-tone="paper">
+      <p class="band-say">Itatala ang bawat tseke sa history.</p>
+      <button class="switch" type="button" role="switch" aria-checked="false" aria-label="History" data-ui><span></span></button>
+      <p class="band-more">Hanapin ang dating tseke ayon sa payee, at i-print ulit sa isang click.</p>
+    </li>
+    <li class="band" data-tone="lift">
+      <p class="band-say">Gagamitin ang printer mo ngayon.</p>
+      <button class="switch" type="button" role="switch" aria-checked="false" aria-label="Windows printer" data-ui><span></span></button>
+      <p class="band-more">Kahit anong printer na naka-install sa Windows, at gumagana offline.</p>
+    </li>
+  </ul>
+</section>
+
+<!-- A REST: the old business street -->
+<figure class="street">
+  <img src="assets/escolta-1903.jpg" alt="Lumang postcard ng Calle Escolta sa Maynila, may mga kalesa at tindahan" width="1600" height="1032" loading="lazy">
+  <figcaption>Calle Escolta, Maynila, mga 1903: ang dating sentro ng negosyo ng lungsod.</figcaption>
+</figure>
+
+<!-- BANKS: statement, table pushed right -->
+<section class="banks" id="bangko">
+  <h2 class="banks-title">Handa para sa 22 bangko.</h2>
+  <div class="banks-body">
+    <figure class="banks-photo">
+      <img src="assets/bpi-binondo.jpg" alt="Gusali ng Banco de las Islas Filipinas sa Plaza Cervantes, Binondo" width="1200" height="800" loading="lazy">
+      <figcaption>Plaza Cervantes, Binondo</figcaption>
+    </figure>
+    <div class="banks-table">
+      <p class="banks-name">Mga bangko</p>
+      <ul class="bank-rows">
+        <li><span>AUB</span><span>handa</span></li><li><span>Bank of Commerce</span><span>handa</span></li><li><span>BDO</span><span>handa</span></li><li><span>BDO Network Bank</span><span>handa</span></li>
+        <li><span>BPI</span><span>handa</span></li><li><span>China Bank</span><span>handa</span></li><li><span>Chinabank Savings</span><span>handa</span></li><li><span>CTBC Bank</span><span>handa</span></li>
+        <li><span>DBP</span><span>handa</span></li><li><span>EastWest Bank</span><span>handa</span></li><li><span>Landbank</span><span>handa</span></li><li><span>Maybank</span><span>handa</span></li>
+        <li><span>Metrobank</span><span>handa</span></li><li><span>PBCOM</span><span>handa</span></li><li><span>Philtrust Bank</span><span>handa</span></li><li><span>PNB</span><span>handa</span></li>
+        <li><span>PSBank</span><span>handa</span></li><li><span>RCBC</span><span>handa</span></li><li><span>Robinsons Bank</span><span>handa</span></li><li><span>Security Bank</span><span>handa</span></li>
+        <li><span>Sterling Bank of Asia</span><span>handa</span></li><li><span>UnionBank</span><span>handa</span></li>
+      </ul>
+      <p class="banks-note">Hindi ito endorsement ng mga bangko. Puwedeng mag-iba ang cheque stock kahit iisang bangko, kaya laging mag-test print muna.</p>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="section" id="how-to">
-    <div class="wrap">
-      <h2>Simulan sa tatlong hakbang</h2>
-      <p class="section-intro">Ilang minuto lang ang setup.</p>
-      <ol class="steps">
-        <li>
-          <h3>I-download ang installer</h3>
-          <p>Kunin ang <code>ChequeWriter_Setup.exe</code> mula sa download button sa itaas.</p>
-        </li>
-        <li>
-          <h3>I-install</h3>
-          <p>I-double-click ang installer at sundin ang wizard. Kung may lumabas na babala ng Windows, <a href="#faq">tingnan dito</a>.</p>
-        </li>
-        <li>
-          <h3>Mag-test print muna</h3>
-          <p>I-print muna sa plain paper, ipatong sa tseke, at i-adjust ang alignment kung kailangan. Saka mag-print sa original na tseke.</p>
-          <span class="stamp" aria-hidden="true">TEST PRINT</span>
-        </li>
+<!-- HOW: the stages as one bar -->
+<section class="how" id="paano">
+  <h2 class="how-title">Tatlong yugto lang.</h2>
+  <div class="stages" data-ui>
+    <div class="stage" style="--grow:5" data-tone="lift"><span class="stage-time">Ilang minuto</span></div>
+    <div class="stage" style="--grow:12" data-tone="pink"><span class="stage-time">Isang beses lang</span></div>
+    <div class="stage" style="--grow:1.6" data-tone="paper"><span class="stage-time">Ilang segundo</span></div>
+  </div>
+  <ol class="stage-notes">
+    <li style="--grow:5">Una, i-download at i-install. Gagawa ito ng shortcut sa Desktop at Start Menu.</li>
+    <li style="--grow:12">Pangalawa, i-calibrate sa test sheet at bond paper, kada printer. <a href="calibrate.html">Gabay sa calibration</a></li>
+    <li style="--grow:1.6">Pagkatapos, bawat tseke: i-type, i-preview, i-print.</li>
+  </ol>
+</section>
+
+<!-- PRICING: one plan as a sentence -->
+<section class="pricing" id="presyo">
+  <h2 class="price-say">Libre ang 15 araw, tapos <span class="price-chip">₱100</span> kada buwan.</h2>
+  <div class="price-row" id="download-anchor">
+    <p class="price-sub">Kada PC. Kasama na ang amount in words, calibration, PDF, history at updates. Para sa Windows 10 at 11 (64-bit), <span id="file-size">~395 MB</span>.<span id="version"></span></p>
+    <div class="price-actions">
+      <a class="btn btn-big" id="pricing-download-btn" href="https://github.com/yagame672-blip/cheque-writer-ph/releases/latest/download/ChequeWriter_Setup.exe">I-download ang libreng trial</a>
+      <button class="btn-text" id="share-link" type="button" hidden>Nasa phone ka? Ipadala ang link sa PC mo</button>
+    </div>
+  </div>
+  <div class="pay">
+    <h3>Pagkatapos ng trial: magbayad gamit ang Maya</h3>
+    <div class="pay-grid">
+      <div class="maya">
+        <p class="maya-number">09636737972</p>
+        <p class="maya-label">Maya account number</p>
+        <button class="btn btn-small btn-ghost" id="copy-maya" type="button">Kopyahin</button>
+      </div>
+      <ol class="pay-steps">
+        <li><b>Mag-send ng ₱100</b> sa Maya number na ito.</li>
+        <li><b>Ipadala ang screenshot at Machine ID.</b> Nasa activation screen ng app ang Machine ID at ang number na padadalhan.</li>
+        <li><b>I-activate.</b> Ilagay ang activation key na ibibigay sa iyo.</li>
       </ol>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="section" id="banks">
-    <div class="wrap">
-      <h2>Mga bank format na kasama</h2>
-      <p class="section-intro">Piliin ang bangko mo sa app para sa handang layout.</p>
-      <ul class="banks">
-        <li>AUB</li><li>Bank of Commerce</li><li>BDO</li><li>BDO Network Bank</li><li>BPI</li><li>China Bank</li><li>Chinabank Savings</li><li>CTBC Bank</li><li>DBP</li><li>EastWest Bank</li><li>Landbank</li><li>Maybank</li><li>Metrobank</li><li>PBCOM</li><li>Philtrust Bank</li><li>PNB</li><li>PSBank</li><li>RCBC</li><li>Robinsons Bank</li><li>Security Bank</li><li>Sterling Bank of Asia</li><li>UnionBank</li>
-      </ul>
-      <p class="notice">Hindi ito endorsement ng mga bangko. Puwedeng mag-iba ang cheque format at print results, kaya laging mag-test print.</p>
-    </div>
-  </section>
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <h2 class="faq-title">Mga madalas itanong</h2>
+  <div class="faq-list">
+    <details><summary>May lumabas na "Windows protected your PC" pagbukas ng installer.</summary><p>Normal ito sa bagong app na wala pang code-signing certificate. I-click ang More info, tapos Run anyway.</p></details>
+    <details><summary>Kailangan ba ng internet?</summary><p>Hindi sa paggawa at pag-print ng tseke. Nasa PC mo lang naka-save ang mga record mo. Internet lang ang kailangan kapag magda-download ng update.</p></details>
+    <details><summary>Kailangan ba ng admin access para ma-install?</summary><p>Hindi. Sa sariling folder ng Windows user mo ito naka-install, kaya hindi na kailangan ng IT admin.</p></details>
+    <details><summary>Paano kung hindi tumapat ang print sa tseke?</summary><p>I-calibrate ang app: mag-print ng test sheet sa bond paper, itapat sa tseke, at ayusin ang X at Y. Nasa <a href="calibrate.html">gabay sa calibration</a> ang bawat hakbang.</p></details>
+    <details><summary>Saan makikita ang Machine ID?</summary><p>Nasa kanang bahagi ng main screen ng app, may Copy button sa tabi. Kailangan ito sa activation pagkatapos ng trial.</p></details>
+    <details><summary>Ilang PC ang puwedeng gumamit ng isang license?</summary><p>Isa. Bawat PC ay may sariling Machine ID at sariling activation, ₱100 kada buwan.</p></details>
+  </div>
+</section>
 
-  <section class="section" id="pricing">
-    <div class="wrap pricing">
-      <div>
-        <h2>Libre ang unang 15 araw</h2>
-        <p class="price">₱100</p>
-        <p class="price-unit">kada buwan, kada PC, pagkatapos ng trial</p>
-        <ul class="includes">
-          <li>Cheque printing at preview</li>
-          <li>Print alignment adjustments</li>
-          <li>PDF export</li>
-          <li>Isang activation kada PC</li>
-        </ul>
-        <a class="btn btn-primary" id="pricing-download-btn" href="https://github.com/yagame672-blip/cheque-writer-ph/releases/latest/download/ChequeWriter_Setup.exe">I-download ang libreng trial</a>
-      </div>
-      <div class="pay">
-        <h3>Magbayad gamit ang Maya</h3>
-        <p>Kapag tapos na ang trial at gusto mong ituloy, sundin ang mga hakbang na ito.</p>
-        <div class="maya">
-          <div>
-            <p class="maya-label">Maya account number</p>
-            <p class="maya-number">09636737972</p>
-          </div>
-          <button class="copy-btn" id="copy-maya" type="button">Kopyahin</button>
-        </div>
-        <ol class="pay-steps">
-          <li><b>Mag-send ng ₱100</b><span>I-transfer ang bayad sa Maya number sa itaas.</span></li>
-          <li><b>I-send ang Machine ID</b><span>Ipadala ang screenshot ng bayad kasama ang Machine ID mo. Nasa activation screen ng app ang Machine ID at ang number na padadalhan.</span></li>
-          <li><b>I-activate ang app</b><span>Ilagay ang activation key na ibibigay sa iyo.</span></li>
-        </ol>
-      </div>
-    </div>
-  </section>
+<!-- CTA: a sentence with a blank -->
+<section class="cta" id="ipadala">
+  <form class="cta-form" id="send-form">
+    <h2 class="cta-say"><label for="send-email">I-email ang download link sa</label> <input id="send-email" type="email" placeholder="email mo" autocomplete="email" required> <button type="submit">Ipadala</button></h2>
+    <p class="cta-note">Bubuksan nito ang email app mo na may link na, para ma-download mo sa Windows PC.</p>
+  </form>
+</section>
 
-  <section class="section" id="faq">
-    <div class="wrap">
-      <h2>Mga karaniwang tanong</h2>
-      <div class="faq">
-        <details>
-          <summary>May lumabas na "Windows protected your PC" pagbukas ng installer.</summary>
-          <p>Normal ito sa bagong app na wala pang code-signing certificate. I-click ang <b>More info</b>, tapos <b>Run anyway</b>.</p>
-        </details>
-        <details>
-          <summary>Kailangan ba ng internet?</summary>
-          <p>Hindi sa paggawa at pag-print ng tseke. Nasa PC mo lang naka-save ang mga record mo. Internet lang ang kailangan kapag magda-download ng update.</p>
-        </details>
-        <details>
-          <summary>Kailangan ba ng admin access para ma-install?</summary>
-          <p>Hindi. Sa sariling folder ng Windows user mo ito naka-install, kaya hindi na kailangan ng IT admin.</p>
-        </details>
-        <details>
-          <summary>Saan makikita ang Machine ID?</summary>
-          <p>Nasa kanang bahagi ng main screen ng app, may Copy button sa tabi. Kailangan ito sa activation pagkatapos ng trial.</p>
-        </details>
-      </div>
-    </div>
-  </section>
-
-  <section class="closing">
-    <div class="wrap closing-inner">
-      <div>
-        <h2>Handa ka nang subukan?</h2>
-        <p>Libre ang unang 15 araw. Para sa Windows 10 at 11.</p>
-      </div>
-      <a id="cta-download-btn" class="btn btn-primary" href="https://github.com/yagame672-blip/cheque-writer-ph/releases/latest/download/ChequeWriter_Setup.exe">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5M12 15V3"/></svg>
-        I-download para sa Windows
-      </a>
-    </div>
-  </section>
 </main>
 
-<footer class="footer">
-  <div class="wrap footer-inner">
-    <p>© 2026 Cheque Writer PH</p>
-    <a href="admin.html">Admin</a>
+<footer class="foot">
+  <div class="foot-top">
+    <div class="foot-invite">
+      <p class="foot-say">Handa na ang unang tseke mo?</p>
+      <a class="btn btn-big btn-ink" id="cta-download-btn" href="https://github.com/yagame672-blip/cheque-writer-ph/releases/latest/download/ChequeWriter_Setup.exe">I-download para sa Windows</a>
+    </div>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="calibrate.html">Gabay sa calibration</a>
+      <a href="#presyo">Presyo at bayad</a>
+      <a href="#faq">Mga tanong</a>
+      <a href="admin.html">Admin</a>
+    </nav>
   </div>
+  <div class="foot-legal">
+    <p>© 2026 Cheque Writer PH. Hindi endorsement ng mga bangko ang listahan ng layout.</p>
+    <p class="credits">Mga larawan: <a href="https://commons.wikimedia.org/wiki/File:Manila_Escolta_(NBY_443874).jpg">“Manila Escolta (NBY 443874)”</a>, public domain; <a href="https://commons.wikimedia.org/wiki/File:Protectograph_Huolintatalo.jpg">“Protectograph Huolintatalo”</a> ni Antti Leppänen, <a href="https://creativecommons.org/licenses/by/4.0">CC BY 4.0</a>; <a href="https://commons.wikimedia.org/wiki/File:Banco_de_las_Islas_Filipinas_at_Plaza_Cervantes_in_Binondo.jpg">“Banco de las Islas Filipinas at Plaza Cervantes in Binondo”</a> ni Ricardo C. Eusebio, <a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA 3.0</a>; <a href="https://commons.wikimedia.org/wiki/File:Olivetti_Dora_portable_typewriter.webm">“Olivetti Dora portable typewriter”</a> ni Erik Pålsson, <a href="https://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>; lahat via Wikimedia Commons.</p>
+  </div>
+  <p class="foot-name" aria-hidden="true">Cheque Writer</p>
 </footer>
-<script src="main.js"></script>
+
+<script src="assets/vendor/gsap.min.js" defer></script>
+<script src="assets/vendor/ScrollTrigger.min.js" defer></script>
+<script src="assets/vendor/lenis.min.js" defer></script>
+<script src="main.js" defer></script>
 </body>
 </html>
