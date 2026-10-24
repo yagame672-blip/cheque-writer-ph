@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login – Cheque Writer PH</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #080E1A; --bg2: #0F1929; --bg3: #111D2E;
+      --cyan: #38BDF8; --blue: #3B82F6; --red: #F87171;
+      --border: rgba(56,189,248,0.12);
+      --text: #F1F5F9; --muted: #8DA8C4;
+      --font: 'Inter', sans-serif;
+    }
+    html, body {
+      font-family: var(--font); color: var(--text); min-height: 100vh;
+      background:
+        radial-gradient(900px 500px at 50% -10%, rgba(56,189,248,0.10), transparent 60%),
+        var(--bg);
+    }
+    .wrap {
+      position: fixed; inset: 0;
+      display: flex; align-items: center; justify-content: center; padding: 1.25rem;
+    }
+    .card {
+      background: linear-gradient(180deg, var(--bg2), var(--bg3));
+      border: 1px solid var(--border); border-radius: 18px;
+      padding: 2.5rem 2.25rem; width: 100%; max-width: 380px; text-align: center;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.45);
+    }
+    .logo {
+      width: 60px; height: 60px; margin: 0 auto 1.1rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.7rem; border-radius: 16px;
+      background: linear-gradient(135deg, rgba(56,189,248,0.18), rgba(59,130,246,0.18));
+      border: 1px solid var(--border);
+    }
+    h1 { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.02em; }
+    .brand-ph { color: var(--cyan); }
+    .sub { font-size: 0.85rem; color: var(--muted); margin: 0.35rem 0 1.75rem; }
+    .field { position: relative; margin-bottom: 0.9rem; text-align: left; }
+    label { display: block; font-size: 0.75rem; color: var(--muted); margin-bottom: 0.4rem; font-weight: 600; }
+    input {
+      width: 100%; padding: 0.8rem 1rem; border-radius: 11px;
+      background: var(--bg); border: 1px solid var(--border);
+      color: var(--text); font-family: var(--font); font-size: 0.95rem;
+      outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    input:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(56,189,248,0.12); }
+    .btn {
+      width: 100%; padding: 0.85rem; border-radius: 11px; margin-top: 0.4rem;
+      background: linear-gradient(135deg, #38BDF8, #3B82F6);
+      color: #04121F; font-weight: 800; font-size: 0.95rem;
+      border: none; cursor: pointer; font-family: var(--font);
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .btn:hover { opacity: 0.92; transform: translateY(-1px); }
+    .btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+    .err {
+      color: var(--red); font-size: 0.82rem; margin-top: 0.85rem;
+      min-height: 1.1rem; font-weight: 500;
+    }
+    .foot { margin-top: 1.5rem; font-size: 0.72rem; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <form class="card" id="login-form" autocomplete="off">
+      <div class="logo">🔐</div>
+      <h1>Cheque Writer <span class="brand-ph">PH</span></h1>
+      <p class="sub">Admin Dashboard – Download Analytics</p>
+
+      <div class="field">
+        <label for="user">Username</label>
+        <input id="user" name="user" type="text" value="admin" autocomplete="username" />
+      </div>
+      <div class="field">
+        <label for="pw">Password</label>
+        <input id="pw" name="pw" type="password" placeholder="••••••••" autocomplete="current-password" autofocus />
+      </div>
+
+      <button class="btn" id="btn" type="submit">Sign In</button>
+      <p class="err" id="err"></p>
+      <p class="foot">Protektado ang pahinang ito. Authorized personnel only.</p>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('login-form');
+    const btn = document.getElementById('btn');
+    const err = document.getElementById('err');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      err.textContent = '';
+      btn.disabled = true;
+      btn.textContent = 'Signing in…';
+      try {
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username: document.getElementById('user').value,
+            password: document.getElementById('pw').value,
+          }),
+        });
+        if (res.ok) {
+          const params = new URLSearchParams(location.search);
+          location.href = params.get('next') === '/admin' ? '/admin' : '/admin.html';
+          return;
+        }
+        err.textContent = '❌ Mali ang username o password. Subukan ulit.';
+      } catch {
+        err.textContent = '⚠️ May problema sa koneksyon. Subukan ulit.';
+      }
+      btn.disabled = false;
+      btn.textContent = 'Sign In';
+      document.getElementById('pw').focus();
+    });
+  </script>
+</body>
+</html>

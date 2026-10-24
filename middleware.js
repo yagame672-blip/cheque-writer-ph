@@ -1,51 +1,50 @@
-// Vercel Routing Middleware – pinoprotektahan ang admin dashboard gamit ang HTTP Basic Auth.
-// Ang credentials ay nasa Vercel environment variables (hindi nakikita sa browser):
-//   ADMIN_USER     – username (default: "admin")
-//   ADMIN_PASSWORD – password (required; kapag wala, naka-lock ang dashboard)
+// Vercel Routing Middleware – gates the admin dashboard behind a signed
+// session cookie set by /api/login. Visitors without a valid cookie are sent
+// to the branded /login.html page. The password lives only in env vars.
+import crypto from 'node:crypto';
 
 export const config = {
   matcher: ['/admin', '/admin.html'],
+  runtime: 'nodejs',
 };
 
-function safeEqual(a, b) {
-  if (a.length !== b.length) return false;
-  let diff = 0;
-  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
-  return diff === 0;
+function readCookie(header, name) {
+  if (!header) return null;
+  for (const part of header.split(';')) {
+    const eq = part.indexOf('=');
+    if (eq === -1) continue;
+    if (part.slice(0, eq).trim() === name) {
+      return decodeURIComponent(part.slice(eq + 1).trim());
+    }
+  }
+  return null;
 }
 
-function unauthorized() {
-  return new Response('Authentication required', {
-    status: 401,
-    headers: {
-      'WWW-Authenticate': 'Basic realm="Cheque Writer PH Admin", charset="UTF-8"',
-      'Cache-Control': 'no-store',
-    },
-  });
+function isValidSession(token, secret) {
+  if (!token) return false;
+  const dot = token.lastIndexOf('.');
+  if (dot === -1) return false;
+  const payload = token.slice(0, dot);
+  const sig = token.slice(dot + 1);
+  const expected = crypto.createHmac('sha256', secret).update(payload).digest('hex');
+  const a = Buffer.from(sig);
+  const b = Buffer.from(expected);
+  if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) return false;
+  const exp = parseInt(payload, 10);
+  return Number.isFinite(exp) && Date.now() < exp;
 }
 
 export default function middleware(request) {
-  const expectedUser = process.env.ADMIN_USER || 'admin';
-  const expectedPass = process.env.ADMIN_PASSWORD;
-  if (!expectedPass) return unauthorized();
+  const secret = process.env.SESSION_SECRET || process.env.ADMIN_PASSWORD || '';
+  const token = readCookie(request.headers.get('cookie'), 'cw_session');
 
-  const header = request.headers.get('authorization') || '';
-  if (!header.startsWith('Basic ')) return unauthorized();
-
-  let decoded;
-  try {
-    decoded = atob(header.slice(6));
-  } catch {
-    return unauthorized();
+  if (secret && isValidSession(token, secret)) {
+    return; // authenticated – serve the dashboard
   }
-  const sep = decoded.indexOf(':');
-  if (sep === -1) return unauthorized();
 
-  const user = decoded.slice(0, sep);
-  const pass = decoded.slice(sep + 1);
-  const userOk = safeEqual(user, expectedUser);
-  const passOk = safeEqual(pass, expectedPass);
-  if (!(userOk && passOk)) return unauthorized();
-
-  // Walang ibinalik = ituloy sa static na admin.html
+  const url = new URL(request.url);
+  const next = url.pathname;
+  url.pathname = '/login.html';
+  url.search = `?next=${encodeURIComponent(next)}`;
+  return Response.redirect(url, 307);
 }
