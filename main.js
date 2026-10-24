@@ -240,7 +240,9 @@
     // A clip reveal rather than a fade, so the headline is never shown at low contrast.
     .fromTo('.half-l', { clipPath: 'inset(0 0 100% 0)', y: 24 }, { clipPath: 'inset(0 0 0% 0)', y: 0 })
     .fromTo('.half-r', { clipPath: 'inset(0 0 100% 0)', y: 24 }, { clipPath: 'inset(0 0 0% 0)', y: 0 }, '<0.06')
-    .fromTo('.reel', { opacity: 0, y: 32 }, { opacity: 1, y: 0, duration: 0.9 }, '<0.1')
+    // The reel is centred by a CSS translate(-50%, -50%); animating its transform would replace that
+    // with fixed pixels and push it off centre after a resize, so it rises with a margin instead.
+    .fromTo('.reel', { opacity: 0, marginTop: 32 }, { opacity: 1, marginTop: 0, duration: 0.9 }, '<0.1')
     .from('.hero-foot', { opacity: 0, y: 16 }, '<0.15');
 
   // Phone: the reel's frames take turns in one place.
@@ -309,8 +311,8 @@
   });
 
   // The name in the footer slides in under the invitation.
-  gsap.fromTo('.foot-name', { xPercent: 6 }, {
-    xPercent: -4, ease: 'none',
+  gsap.fromTo('.foot-name', { yPercent: 30 }, {
+    yPercent: 0, ease: 'none',
     scrollTrigger: { trigger: '.foot', start: 'top bottom', end: 'bottom bottom', scrub: true },
   });
 

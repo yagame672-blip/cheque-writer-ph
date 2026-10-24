@@ -136,6 +136,6 @@
     });
   });
 
-  gsap.fromTo('.foot-name', { xPercent: 6 }, { xPercent: -4, ease: 'none', scrollTrigger: { trigger: '.foot', start: 'top bottom', end: 'bottom bottom', scrub: true } });
+  gsap.fromTo('.foot-name', { yPercent: 30 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: '.foot', start: 'top bottom', end: 'bottom bottom', scrub: true } });
   document.fonts.ready.then(() => ScrollTrigger.refresh());
 })();

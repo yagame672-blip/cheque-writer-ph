@@ -234,7 +234,7 @@ h1, h2 { font-weight: 800; letter-spacing: -.05em; line-height: .92; text-wrap: 
 .cta-note { margin-top: 28px; font-size: var(--step-body); color: var(--muted); max-width: 52ch; }
 
 /* FOOTER: invitation over the cropped name */
-.foot { position: relative; overflow: hidden; background: var(--ink); color: var(--bg); padding: 96px var(--m) 0; min-height: 88svh; display: flex; flex-direction: column; }
+.foot { position: relative; overflow: hidden; background: var(--ink); color: var(--bg); padding: 96px var(--m) 0; display: flex; flex-direction: column; }
 .foot a { color: var(--bg); }
 .foot .btn-ink { color: var(--ink); }
 .foot :focus-visible { outline-color: var(--bg); }
@@ -244,9 +244,10 @@ h1, h2 { font-weight: 800; letter-spacing: -.05em; line-height: .92; text-wrap: 
 .foot-links { grid-column: 10 / span 3; display: grid; gap: 10px; align-content: start; font-weight: 600; }
 .foot-links a { text-decoration: none; }
 .foot-links a:hover { text-decoration: underline; }
-.foot-legal { margin-top: auto; padding-top: 80px; display: flex; justify-content: space-between; gap: 32px; font-size: var(--step-small); }
+.foot-legal { padding-top: 88px; display: flex; justify-content: space-between; gap: 32px; font-size: var(--step-small); }
 .foot-legal .credits { max-width: 72ch; text-align: right; }
-.foot-name { font: 800 26vw/.8 var(--sans); letter-spacing: -.06em; white-space: nowrap; margin: 8px calc(var(--m) * -1) 0 -.04em; transform: translateY(28%); }
+/* The name fills the width exactly (6.51em wide at this tracking) and is cropped only by the bottom edge */
+.foot-name { font: 800 calc((100vw - 2 * var(--m)) / 6.6)/.8 var(--sans); letter-spacing: -.06em; white-space: nowrap; margin: 40px 0 0; transform: translateY(24%); }
 
 /* Motion start states, applied only when main.js will animate them */
 .motion .hero-title .half { clip-path: inset(0 0 100% 0); }
@@ -330,7 +331,7 @@ h1, h2 { font-weight: 800; letter-spacing: -.05em; line-height: .92; text-wrap: 
   .foot-links { display: flex; flex-wrap: wrap; gap: 8px 20px; }
   .foot-legal { flex-direction: column; }
   .foot-legal .credits { text-align: left; }
-  .foot-name { font-size: 34vw; }
+
 }
 /* ================= Calibration guide ================= */
 .cal-hero { display: grid; grid-template-columns: repeat(12, 1fr); gap: 32px; align-items: end; padding: 152px var(--m) 0; }
@@ -461,7 +462,7 @@ h1, h2 { font-weight: 800; letter-spacing: -.05em; line-height: .92; text-wrap: 
 .tips { list-style: none; margin: 72px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
 .tips li { font-size: var(--step-body); }
 .tips b { display: block; font: 800 var(--step-lead)/1.15 var(--sans); letter-spacing: -.02em; margin-bottom: 8px; }
-.foot-short { min-height: 70svh; }
+
 
 /* Then and now: the old way of putting print in its place */
 .cal-then { display: grid; grid-template-columns: repeat(12, 1fr); gap: 32px; align-items: end; padding: var(--gap) var(--m) 0; }
