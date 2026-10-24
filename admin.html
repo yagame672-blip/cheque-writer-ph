@@ -20,37 +20,7 @@
     }
     html, body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; }
 
-    /* ── LOGIN SCREEN ── */
-    #login-screen {
-      position: fixed; inset: 0; background: var(--bg);
-      display: flex; align-items: center; justify-content: center; z-index: 999;
-    }
-    .login-card {
-      background: var(--bg2); border: 1px solid var(--border); border-radius: 16px;
-      padding: 2.5rem; width: 100%; max-width: 380px; text-align: center;
-    }
-    .login-icon { font-size: 2.5rem; margin-bottom: 1rem; }
-    .login-card h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.4rem; }
-    .login-card p { font-size: 0.85rem; color: var(--muted); margin-bottom: 1.75rem; }
-    .login-input {
-      width: 100%; padding: 0.75rem 1rem; border-radius: 10px;
-      background: var(--bg3); border: 1px solid var(--border);
-      color: var(--text); font-family: var(--font); font-size: 0.95rem;
-      outline: none; margin-bottom: 0.85rem; transition: border-color 0.2s;
-    }
-    .login-input:focus { border-color: var(--cyan); }
-    .login-btn {
-      width: 100%; padding: 0.75rem; border-radius: 10px;
-      background: linear-gradient(135deg, #38BDF8, #3B82F6);
-      color: #080E1A; font-weight: 700; font-size: 0.95rem;
-      border: none; cursor: pointer; font-family: var(--font);
-      transition: opacity 0.2s, transform 0.2s;
-    }
-    .login-btn:hover { opacity: 0.9; transform: translateY(-1px); }
-    .login-error { color: var(--red); font-size: 0.82rem; margin-top: 0.5rem; display: none; }
-
     /* ── DASHBOARD ── */
-    #dashboard { display: none; }
     .topbar {
       display: flex; align-items: center; justify-content: space-between;
       padding: 1rem 2rem; border-bottom: 1px solid var(--border);
@@ -73,11 +43,6 @@
       transition: background 0.2s;
     }
     .refresh-btn:hover { background: rgba(56,189,248,0.15); }
-    .logout-btn {
-      background: transparent; border: 1px solid rgba(248,113,113,0.3);
-      color: var(--red); border-radius: 8px; padding: 0.4rem 1rem;
-      font-size: 0.82rem; cursor: pointer; font-family: var(--font);
-    }
 
     .main { padding: 2rem; max-width: 1200px; margin: 0 auto; }
 
@@ -169,18 +134,6 @@
 </head>
 <body>
 
-<!-- ══ LOGIN ══ -->
-<div id="login-screen">
-  <div class="login-card">
-    <div class="login-icon">🔐</div>
-    <h2>Admin Dashboard</h2>
-    <p>Cheque Writer PH – Download Analytics</p>
-    <input id="pw-input" class="login-input" type="password" placeholder="Enter password" />
-    <button class="login-btn" onclick="doLogin()">Sign In</button>
-    <p class="login-error" id="login-err">❌ Mali ang password. Subukan ulit.</p>
-  </div>
-</div>
-
 <!-- ══ DASHBOARD ══ -->
 <div id="dashboard">
   <div class="topbar">
@@ -188,7 +141,6 @@
     <div class="topbar-right">
       <div class="status-badge"><span class="status-dot"></span> Live</div>
       <button class="refresh-btn" onclick="loadData()">🔄 Refresh</button>
-      <button class="logout-btn" onclick="doLogout()">Logout</button>
     </div>
   </div>
 
@@ -263,37 +215,12 @@
   // ── CONFIG ──
   const GITHUB_USER = 'yagame672-blip';
   const GITHUB_REPO = 'cheque-writer-ph';
-  const ADMIN_PASSWORD = 'chequeadmin2026'; // ← palitan mo ito!
 
   let dlChart = null;
 
-  // ── LOGIN ──
-  function doLogin() {
-    const pw = document.getElementById('pw-input').value;
-    if (pw === ADMIN_PASSWORD) {
-      sessionStorage.setItem('cw_admin', '1');
-      document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('dashboard').style.display = 'block';
-      loadData();
-      setInterval(loadData, 60000); // auto-refresh every 60s
-    } else {
-      document.getElementById('login-err').style.display = 'block';
-    }
-  }
-  document.getElementById('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
-
-  function doLogout() {
-    sessionStorage.removeItem('cw_admin');
-    location.reload();
-  }
-
-  // Auto-login if session exists
-  if (sessionStorage.getItem('cw_admin') === '1') {
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('dashboard').style.display = 'block';
-    loadData();
-    setInterval(loadData, 60000);
-  }
+  // Ang login ay hawak na ng server (middleware.js + ADMIN_PASSWORD env var sa Vercel)
+  loadData();
+  setInterval(loadData, 60000); // auto-refresh every 60s
 
   // ── FETCH DATA ──
   async function loadData() {
